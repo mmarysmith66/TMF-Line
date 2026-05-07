@@ -112,16 +112,19 @@ export default function FundingCalculator({ compact = false }) {
         </div>
 
         {estimate && (
-          <div className="mt-7 grid grid-cols-3 gap-3" data-testid="fc-estimate-box">
+          <div className="mt-7 grid grid-cols-3 gap-2 sm:gap-3" data-testid="fc-estimate-box">
             {[
-              { k: "conservative", label: "Conservative", sub: "Best rates" },
-              { k: "average", label: "Average", sub: "Most likely" },
-              { k: "aggressive", label: "Aggressive", sub: "Max funding" },
+              { k: "conservative", label: "Conservative", short: "Cons.", sub: "Best rates" },
+              { k: "average", label: "Average", short: "Avg.", sub: "Most likely" },
+              { k: "aggressive", label: "Aggressive", short: "Aggr.", sub: "Max funding" },
             ].map((s) => (
-              <div key={s.k} className="card-surface p-4 text-center">
-                <div className="eyebrow text-zinc-500">{s.label}</div>
-                <div className="font-mono text-xl text-white mt-2">{formatCurrency(estimate[s.k])}</div>
-                <div className="text-[0.72rem] text-zinc-500 mt-1">{s.sub}</div>
+              <div key={s.k} className="card-surface p-3 sm:p-4 text-center min-w-0">
+                <div className="font-mono uppercase tracking-[0.08em] sm:tracking-[0.12em] text-[0.6rem] sm:text-[0.66rem] text-emerald-400/90 truncate">
+                  <span className="sm:hidden">{s.short}</span>
+                  <span className="hidden sm:inline">{s.label}</span>
+                </div>
+                <div className="font-mono text-base sm:text-lg text-white mt-1.5 sm:mt-2 truncate">{formatCurrency(estimate[s.k])}</div>
+                <div className="text-[0.64rem] sm:text-[0.7rem] text-zinc-500 mt-1 truncate">{s.sub}</div>
               </div>
             ))}
           </div>

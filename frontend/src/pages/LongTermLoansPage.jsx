@@ -86,9 +86,9 @@ export default function LongTermLoansPage() {
         <SectionEyebrow label="Qualification" title="Highlights at a glance." />
         <div className="mt-10 grid grid-cols-2 md:grid-cols-5 gap-px bg-white/[0.05] border border-white/[0.05] rounded-2xl overflow-hidden">
           {QUAL.map((q, i) => (
-            <div key={i} className="bg-[#0b0b0d] p-6 md:p-8" data-testid={`ltl-qual-${i}`}>
-              <div className="eyebrow text-zinc-500">{q.l}</div>
-              <div className="font-mono text-xl text-white mt-3 tracking-tight">{q.v}</div>
+            <div key={i} className="bg-[#0b0b0d] p-5 md:p-8 min-w-0" data-testid={`ltl-qual-${i}`}>
+              <div className="font-mono uppercase tracking-[0.14em] text-[0.6rem] sm:text-[0.7rem] text-zinc-500 truncate">{q.l}</div>
+              <div className="font-mono text-base sm:text-lg md:text-xl text-white mt-3 tracking-tight break-words">{q.v}</div>
             </div>
           ))}
         </div>

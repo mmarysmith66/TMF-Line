@@ -126,16 +126,22 @@ export default function FundingEstimatorPage() {
               <div className="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none" />
               <div className="relative">
                 <h3 className="h3">Estimated Funding Range</h3>
-                <div className="mt-6 grid grid-cols-3 gap-3" data-testid="est-results">
+                <div className="mt-6 grid grid-cols-3 gap-2 sm:gap-3" data-testid="est-results">
                   {[
-                    { k: "conservative", l: "Conservative", s: "Lower amount, best rates" },
-                    { k: "average", l: "Average", s: "Most likely scenario" },
-                    { k: "aggressive", l: "Aggressive", s: "Max funding, higher cost" },
+                    { k: "conservative", l: "Conservative", short: "Cons.", s: "Lower amount, best rates", shortS: "Best rates" },
+                    { k: "average", l: "Average", short: "Avg.", s: "Most likely scenario", shortS: "Most likely" },
+                    { k: "aggressive", l: "Aggressive", short: "Aggr.", s: "Max funding, higher cost", shortS: "Max funding" },
                   ].map((s) => (
-                    <div key={s.k} className="card-surface p-4 text-center">
-                      <div className="eyebrow text-zinc-500">{s.l}</div>
-                      <div className="font-mono text-lg text-white mt-2">{estimate ? fmt(estimate[s.k]) : "—"}</div>
-                      <div className="text-[0.7rem] text-zinc-500 mt-1">{s.s}</div>
+                    <div key={s.k} className="card-surface p-3 sm:p-4 text-center min-w-0">
+                      <div className="font-mono uppercase tracking-[0.08em] sm:tracking-[0.12em] text-[0.6rem] sm:text-[0.66rem] text-emerald-400/90 truncate">
+                        <span className="sm:hidden">{s.short}</span>
+                        <span className="hidden sm:inline">{s.l}</span>
+                      </div>
+                      <div className="font-mono text-base sm:text-lg text-white mt-1.5 sm:mt-2 truncate">{estimate ? fmt(estimate[s.k]) : "—"}</div>
+                      <div className="text-[0.64rem] sm:text-[0.68rem] text-zinc-500 mt-1 truncate">
+                        <span className="sm:hidden">{s.shortS}</span>
+                        <span className="hidden sm:inline">{s.shortS}</span>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -177,9 +183,9 @@ export default function FundingEstimatorPage() {
             { v: "500+", l: "Min Credit Accepted" },
             { v: "3–6 mo", l: "Statements Needed" },
           ].map((s, i) => (
-            <div key={i} className="bg-[#0b0b0d] p-7 md:p-8" data-testid={`est-method-${i}`}>
-              <div className="font-mono text-2xl text-white tracking-tight">{s.v}</div>
-              <div className="eyebrow text-zinc-500 mt-3">{s.l}</div>
+            <div key={i} className="bg-[#0b0b0d] p-5 md:p-8 min-w-0" data-testid={`est-method-${i}`}>
+              <div className="font-mono text-lg sm:text-xl md:text-2xl text-white tracking-tight break-words">{s.v}</div>
+              <div className="font-mono uppercase tracking-[0.14em] text-[0.6rem] sm:text-[0.7rem] text-zinc-500 mt-3 truncate">{s.l}</div>
             </div>
           ))}
         </div>
