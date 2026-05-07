@@ -34,6 +34,17 @@ Clone tmfcapital.online's structure, content logic, pages, forms, flow, and func
 - ✅ Sticky glassmorphic nav, premium footer, responsive layout, FAQ accordions, stat strips
 - ✅ All interactive elements have data-testid
 
+## Iteration 2 (Feb 2026) — Branding, PWA, AI Assistant
+- ✅ Removed "Made with Emergent" badge
+- ✅ Custom favicon (multi-size .ico, 16/32/48/64/192/512 PNG, apple-touch-icon)
+- ✅ OG/Twitter meta tags + structured JSON-LD FinancialService schema
+- ✅ Custom OG image (1200×630) generated via Nano Banana
+- ✅ Full PWA: manifest.json (name, icons, shortcuts to /contact, /funding-estimator, /heloc-calculator), service-worker.js (network-first navigations + stale-while-revalidate static), offline.html fallback
+- ✅ Floating AI assistant chat widget on every page
+- ✅ Backend `/api/assistant/chat` & `/api/assistant/history/{id}` powered by Claude Sonnet 4.5 (claude-sonnet-4-5-20250929) via emergentintegrations + EMERGENT_LLM_KEY
+- ✅ Multi-turn conversation memory persisted in MongoDB `chat_sessions` collection (verified: turn-2 recall of turn-1 facts)
+- ✅ Session ID auto-generated and stored in localStorage; history reloaded across page refreshes
+
 ## Backlog (P1/P2)
 - P1: Admin panel UI for viewing leads (currently only via GET /api/leads JSON)
 - P1: AI assistant chat widget (referenced in original "Talk to AI Assistant" step)
