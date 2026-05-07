@@ -1,0 +1,35 @@
+{
+  "summary": "First-pass full-stack testing of TMF Line. Backend: 11/11 pytest tests pass — all calculators (funding & HELOC) produce correct math, all leads endpoints persist to MongoDB, /api/leads excludes _id, invalid email rightly rejected (422). Frontend: all 7 routes load (/, /mca, /heloc-calculator, /long-term-loans, /funding-estimator, /about, /contact), homepage embedded calculator updates live ($50k -> $100k avg on slider drag), HELOC calculator live-updates results on input changes, contact form submits and shows success state, funding-estimator submits and shows success toast 'Submitted. A specialist will reach out within 24 hours.', FAQ accordions on /mca, /heloc-calculator, /long-term-loans, /funding-estimator all open/close, header is position:fixed (sticky), mobile menu opens at 390px viewport, footer internal links navigate correctly, NO legacy 'TMFCapital' or 'Tres Mentes' strings found anywhere.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/backend_test.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "Minor a11y: components/FAQ.jsx custom accordion buttons do not set aria-expanded — adding aria-expanded={isOpen} would improve screen-reader/automation support.",
+    "backend/.env: CORS_ORIGINS='*' combined with allow_credentials=True is contradictory per the CORS spec; modern browsers will refuse credentialed requests with wildcard. Currently no auth/cookies used so it works, but tighten to an explicit origin list before production.",
+    "estimate_heloc: 'available_credit' is multiplied by cs_factor AFTER subtracting mortgage_balance, so a stronger credit score scales the *spread* rather than the LTV cap. This is a defensible product choice but a comment in code clarifying intent would help future maintainers.",
+    "/api/leads is unauthenticated 'admin verification' endpoint — leaks every lead's PII (name, email, phone, revenue) publicly. Must be gated before launch.",
+    "FundingCalcInput.email is a plain Optional[str] (not EmailStr) on /api/leads/funding-calculator and /api/calc/funding-estimate, so any string passes. ContactLead correctly uses EmailStr. Consider tightening for consistency."
+  ],
+  "updated_files": [
+    "/app/backend/tests/backend_test.py (created)",
+    "/app/backend/tests/__init__.py (created)"
+  ],
+  "success_rate": {"backend": "100% (11/11)", "frontend": "100% on tested flows (routes, calculators live-update, forms submit, FAQs open/close, header sticky, mobile menu, footer nav, branding)"},
+  "test_credentials": "N/A — all endpoints are public, no auth.",
+  "seed_data_creation": "Test leads inserted under prefix TEST_ via /api/leads/funding-calculator and /api/leads/contact; visible in /api/leads listing. No cleanup endpoint exists, so they remain in MongoDB 'leads' collection.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Frontend public URL: https://tmf-line-redesign.preview.emergentagent.com. FAQ testid prefixes by page: mca-faq, ltl-faq, heloc-faq, est-faq (funding-estimator). Custom FAQ component does NOT use aria-expanded — use [data-testid^='<prefix>-toggle-'] selectors. The slider components (fc-revenue-slider, est-revenue, heloc-ltv) cannot be .fill()'d; focus the [role='slider'] child and press ArrowRight/Left. Backend tests in /app/backend/tests/backend_test.py runnable via: pytest /app/backend/tests/backend_test.py -v.",
+  "rca_of_the_issue": "No issues found. Single notable observation during testing: Playwright reported missing aria-expanded on /mca and /long-term-loans FAQ — root cause is the custom FAQ component intentionally not using ARIA, which is a minor a11y gap, not a functional bug; FAQs work via testid selectors."
+}
