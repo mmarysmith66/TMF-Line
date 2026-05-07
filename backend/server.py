@@ -9,6 +9,7 @@ from pydantic import BaseModel, Field, ConfigDict, EmailStr
 from typing import Optional, List
 import uuid
 from datetime import datetime, timezone
+from emergentintegrations.llm.chat import LlmChat, UserMessage
 
 
 ROOT_DIR = Path(__file__).parent
@@ -196,6 +197,73 @@ async def list_leads(limit: int = 100, secret: str = ""):
         raise HTTPException(status_code=401, detail="Unauthorized")
     items = await db.leads.find({}, {"_id": 0}).sort("created_at", -1).to_list(limit)
     return {"items": items, "count": len(items)}
+
+
+# ---------- AI Assistant (Claude Sonnet 4.5) ----------
+ASSISTANT_SYSTEM = """You are the TMF Line funding assistant — a premium AI advisor for a business funding platform at tmfline.online.
+
+Your role:
+- Help business owners explore funding products: Long-Term Business Loans ($50K–$5M, 1–10 yr), Cash Injection / MCA ($5K–$500K, 3–18 mo), HELOC ($25K–$500K), Line of Credit ($10K–$250K, revolving), Equipment Financing ($10K–$5M), and the Funding Calculator/Estimator.
+- Recommend the right product based on their stage, revenue, time in business, credit, and use of funds.
+- Explain how MCA remittances, HELOC draws, factor rates, and qualification work — clearly and honestly.
+- Always direct serious inquiries to apply at /contact or use /funding-estimator.
+- Reference TMF Line's stats: 1–24 hour decisions, $5K–$5M funding range, dedicated advisor, transparent terms.
+
+Tone: confident, concise, professional fintech. Never make hard promises about approval or rates. Never use generic SaaS or AI cliches. Don't say "I'm an AI assistant" — just help.
+
+Keep responses under 150 words unless the user asks for depth. Use short paragraphs and bullet lists where helpful."""
+
+
+class ChatMessage(BaseModel):
+    role: str  # 'user' | 'assistant'
+    content: str
+
+
+class ChatRequest(BaseModel):
+    session_id: str
+    message: str
+
+
+@api_router.post("/assistant/chat")
+async def assistant_chat(payload: ChatRequest):
+    api_key = os.environ.get("EMERGENT_LLM_KEY")
+    if not api_key:
+        raise HTTPException(500, "Assistant not configured")
+    if not payload.message.strip():
+        raise HTTPException(422, "Message cannot be empty")
+
+    # Load history from MongoDB
+    history_doc = await db.chat_sessions.find_one({"session_id": payload.session_id}, {"_id": 0})
+    history: List[dict] = history_doc.get("messages", []) if history_doc else []
+
+    # Pass prior conversation as a contextual primer (last 10 turns) since the
+    # library's auto-history replays would double-bill tokens.
+    if history:
+        primer = "\n\n".join(f"{m['role'].upper()}: {m['content']}" for m in history[-10:])
+        full_input = f"Conversation so far:\n{primer}\n\nUSER: {payload.message}"
+    else:
+        full_input = payload.message
+
+    chat = LlmChat(api_key=api_key, session_id=payload.session_id, system_message=ASSISTANT_SYSTEM)
+    chat.with_model("anthropic", "claude-sonnet-4-5-20250929")
+    reply = await chat.send_message(UserMessage(text=full_input))
+
+    new_history = history + [
+        {"role": "user", "content": payload.message, "ts": _now_iso()},
+        {"role": "assistant", "content": reply, "ts": _now_iso()},
+    ]
+    await db.chat_sessions.update_one(
+        {"session_id": payload.session_id},
+        {"$set": {"session_id": payload.session_id, "messages": new_history, "updated_at": _now_iso()}},
+        upsert=True,
+    )
+    return {"reply": reply, "session_id": payload.session_id}
+
+
+@api_router.get("/assistant/history/{session_id}")
+async def assistant_history(session_id: str):
+    doc = await db.chat_sessions.find_one({"session_id": session_id}, {"_id": 0, "messages": 1})
+    return {"messages": (doc or {}).get("messages", [])}
 
 
 app.include_router(api_router)

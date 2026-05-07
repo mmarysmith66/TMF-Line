@@ -1,0 +1,24 @@
+{
+  "name": "TMF Line — Strategic Business Funding",
+  "short_name": "TMF Line",
+  "description": "Strategic business funding — fast decisions, transparent terms.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#09090b",
+  "theme_color": "#09090b",
+  "categories": ["finance", "business", "productivity"],
+  "icons": [
+    { "src": "/icon-48.png",  "sizes": "48x48",   "type": "image/png", "purpose": "any" },
+    { "src": "/icon-64.png",  "sizes": "64x64",   "type": "image/png", "purpose": "any" },
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png", "purpose": "any" }
+  ],
+  "shortcuts": [
+    { "name": "Apply Now", "short_name": "Apply", "url": "/contact", "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Funding Calculator", "short_name": "Estimate", "url": "/funding-estimator", "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }] },
+    { "name": "HELOC Calculator", "short_name": "HELOC", "url": "/heloc-calculator", "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }] }
+  ]
+}
