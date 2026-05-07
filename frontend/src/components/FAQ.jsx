@@ -12,6 +12,7 @@ export default function FAQ({ items = [], testIdPrefix = "faq" }) {
             <button
               data-testid={`${testIdPrefix}-toggle-${i}`}
               onClick={() => setOpen(isOpen ? -1 : i)}
+              aria-expanded={isOpen}
               className="w-full flex items-start justify-between gap-6 text-left py-6 group"
             >
               <span className={`text-lg ${isOpen ? "text-white" : "text-zinc-200"} group-hover:text-emerald-300 transition-colors tracking-tight`}>

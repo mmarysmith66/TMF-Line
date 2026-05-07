@@ -189,8 +189,11 @@ async def calc_heloc(payload: HelocInput):
 
 
 @api_router.get("/leads")
-async def list_leads(limit: int = 100):
-    """Internal listing (no auth - for admin verification)."""
+async def list_leads(limit: int = 100, secret: str = ""):
+    """Internal listing — gated by ADMIN_SECRET env var."""
+    expected = os.environ.get("ADMIN_SECRET", "")
+    if not expected or secret != expected:
+        raise HTTPException(status_code=401, detail="Unauthorized")
     items = await db.leads.find({}, {"_id": 0}).sort("created_at", -1).to_list(limit)
     return {"items": items, "count": len(items)}
 
