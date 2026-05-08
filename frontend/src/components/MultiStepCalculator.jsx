@@ -12,18 +12,11 @@ const TIBS = ["Under 6 months", "6 – 12 months", "1 – 2 years", "2 – 5 yea
 const SCORES = ["500 – 549", "550 – 599", "600 – 649", "650 – 699", "700 – 749", "750+"];
 const POSITIONS = ["None", "1 position", "2 positions", "3+ positions"];
 
-const REV_CAP = 2_000_000;
 const fmt = (n) => "$" + (Math.round(n) || 0).toLocaleString("en-US");
-const fmtCap = (n) => (n >= REV_CAP ? "$2M+" : fmt(n));
 
 // Currency input — typed as digits, stored as integer, displayed with commas + $ prefix
-function CurrencyInput({ value, onChange, placeholder = "0", testid, capDisplay = false }) {
-  const [focused, setFocused] = useState(false);
-  const display = useMemo(() => {
-    if (!value) return focused ? "" : "";
-    if (capDisplay && value >= REV_CAP) return focused ? String(value) : "2,000,000+";
-    return Number(value).toLocaleString("en-US");
-  }, [value, focused, capDisplay]);
+function CurrencyInput({ value, onChange, placeholder = "0", testid }) {
+  const display = useMemo(() => (!value ? "" : Number(value).toLocaleString("en-US")), [value]);
 
   const handleChange = (e) => {
     const digits = e.target.value.replace(/[^\d]/g, "");
@@ -40,8 +33,6 @@ function CurrencyInput({ value, onChange, placeholder = "0", testid, capDisplay 
         autoComplete="off"
         value={display}
         onChange={handleChange}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
         placeholder={placeholder}
         className="w-full bg-[#0c0c0e] border border-white/[0.08] rounded-lg pl-7 pr-3.5 py-2.5 text-zinc-100 font-mono placeholder:text-zinc-600 focus:border-emerald-500/60 focus:ring-2 focus:ring-emerald-500/15 outline-none transition"
       />
@@ -235,8 +226,8 @@ export default function MultiStepCalculator({ compact = false }) {
         {/* STEP 1 */}
         {step === 1 && (
           <div className="mt-7 space-y-5" data-testid="step-1">
-            <Field label="Monthly Revenue" hint="Cap displays at $2M+ but you can enter any amount.">
-              <CurrencyInput testid="ms-revenue" value={form.monthly_revenue} onChange={(v) => update("monthly_revenue", v)} placeholder="50,000" capDisplay />
+            <Field label="Monthly Revenue">
+              <CurrencyInput testid="ms-revenue" value={form.monthly_revenue} onChange={(v) => update("monthly_revenue", v)} placeholder="50,000" />
               {showErr("monthly_revenue") && <p className="text-[0.7rem] text-rose-400 mt-1.5">{errs.monthly_revenue}</p>}
             </Field>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
