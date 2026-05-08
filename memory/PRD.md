@@ -34,6 +34,19 @@ Clone tmfcapital.online's structure, content logic, pages, forms, flow, and func
 - ✅ Sticky glassmorphic nav, premium footer, responsive layout, FAQ accordions, stat strips
 - ✅ All interactive elements have data-testid
 
+## Iteration 3 (Feb 2026) — 3-Step Calculator + Phone Format + Text Opt-In
+- ✅ Replaced single-form funding calculator with 3-step wizard (`MultiStepCalculator.jsx`) on both `/` and `/funding-estimator`
+  - Step 1: Monthly revenue (currency input, $5K floor, displays `$2M+` cap but accepts any value), credit score, existing MCA positions, conditional outstanding balance
+  - Step 2: First/last name, business name, industry, time in business
+  - Step 3: US-formatted phone number (`(555) 123-4567`), email, "Yes you can text me" opt-in
+  - Step 4 (results): Conservative/Average/Aggressive estimate cards + "Looking for more?" expandable showing HELOC + long-term loan deep links
+- ✅ Live estimate preview on every step (debounced 250ms)
+- ✅ Per-step inline validation surfaced only after first "Continue" attempt
+- ✅ Backend `estimate_funding` accepts `outstanding_balance` (reduces net average by 50% of balance); `FundingCalcInput` has `outstanding_balance` + `text_opt_in`
+- ✅ Homepage stat strip changed `$5K-$5M` → `$5K-∞`
+- ✅ ContactPage prefills `product_interest` from `?product=` query param via lazy useState initializer
+- ✅ Tests: 28/28 backend pass, 100% frontend after ContactPage prefill fix
+
 ## Iteration 2 (Feb 2026) — Branding, PWA, AI Assistant
 - ✅ Removed "Made with Emergent" badge
 - ✅ Custom favicon (multi-size .ico, 16/32/48/64/192/512 PNG, apple-touch-icon)

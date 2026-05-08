@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
@@ -11,20 +11,17 @@ const PRODUCTS = ["Long-Term Business Loan", "Merchant Cash Advance", "Line of C
 
 export default function ContactPage() {
   const [searchParams] = useSearchParams();
-  const [form, setForm] = useState({
-    full_name: "", company: "", email: "", phone: "",
-    desired_amount: 0, product_interest: "", notes: "",
+  const [form, setForm] = useState(() => {
+    const p = searchParams.get("product");
+    return {
+      full_name: "", company: "", email: "", phone: "",
+      desired_amount: 0,
+      product_interest: p && PRODUCTS.includes(p) ? p : "",
+      notes: "",
+    };
   });
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
-
-  // Prefill product_interest from ?product= query param
-  useEffect(() => {
-    const p = searchParams.get("product");
-    if (p && PRODUCTS.includes(p)) {
-      setForm((f) => ({ ...f, product_interest: p }));
-    }
-  }, [searchParams]);
 
   const update = (k, v) => setForm((f) => ({ ...f, [k]: v }));
 
