@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
+import { useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 import { Input, SelectField } from "@/components/FundingCalculator";
 import { ArrowRight, Lock } from "lucide-react";
@@ -9,12 +10,21 @@ const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 const PRODUCTS = ["Long-Term Business Loan", "Merchant Cash Advance", "Line of Credit", "Equipment Financing", "HELOC", "Not Sure Yet"];
 
 export default function ContactPage() {
+  const [searchParams] = useSearchParams();
   const [form, setForm] = useState({
     full_name: "", company: "", email: "", phone: "",
     desired_amount: 0, product_interest: "", notes: "",
   });
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
+
+  // Prefill product_interest from ?product= query param
+  useEffect(() => {
+    const p = searchParams.get("product");
+    if (p && PRODUCTS.includes(p)) {
+      setForm((f) => ({ ...f, product_interest: p }));
+    }
+  }, [searchParams]);
 
   const update = (k, v) => setForm((f) => ({ ...f, [k]: v }));
 

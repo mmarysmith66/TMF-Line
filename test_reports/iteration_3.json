@@ -1,0 +1,37 @@
+{
+  "summary": "Iteration 3 testing — 28/28 backend tests pass (2 admin-gated skipped). New backend behavior verified: outstanding_balance reduces estimate average (ob=50000 drops avg by ~25k as per net = gross - 0.5*ob), text_opt_in field accepted and ignored when omitted, very large monthly_revenue (5M) accepted. Frontend MultiStepCalculator works on home & /funding-estimator: 3-step wizard renders with multistep-calculator testid, stat strip shows '$5K-∞', currency input formats with commas ($50,000), caps display at '2,000,000+' for >=2M while keeping internal value, validation errors show inline + toast, ms-outstanding appears only when positions != None, back/next navigation works, phone input formats to '(555) 123-4567' as digits typed, opt-in checkbox toggles state, submit POSTs to /api/leads/funding-calculator and renders step-results with 3 estimate cards, success banner, ms-result-apply -> /contact, ms-looking-more toggle reveals ms-more-heloc (-> /heloc-calculator) and ms-more-longterm (-> /contact?product=Long-Term+Business+Loan). Live preview ms-preview appears on steps 1-3. ONE CONFIRMED BUG: ContactPage does NOT prefill product_interest from ?product= query param — direct nav to /contact?product=Long-Term+Business+Loan and the URL-encoded variant both leave the trigger showing 'Select a product' (option exists in list but Radix Select value isn't applied).",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [
+      {"flow": "ContactPage prefill from ?product= query param", "issue": "useEffect calls setForm with valid product but the shadcn/radix <Select> trigger continues to show the placeholder 'Select a product'. Likely cause: Radix Select treats initial empty-string value as 'no value' and doesn't apply the subsequent state update from the async useEffect, OR PRODUCTS.includes() check is failing. Reproduced by direct navigation to /contact?product=Long-Term+Business+Loan AND %20-encoded variant. Click flow from ms-more-longterm also reproduces.", "affected_selectors": ["[data-testid='contact-product']"]}
+    ],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/backend_test.py",
+    "/app/backend/tests/test_assistant_and_assets.py",
+    "/app/backend/tests/test_iter3_multistep.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [
+    "Fix ContactPage product prefill — recommend either: (a) initialize form state synchronously from searchParams (read query in useState lazy initializer), e.g. const initial = PRODUCTS.includes(searchParams.get('product') || '') ? searchParams.get('product') : ''; useState({...,product_interest: initial}), so the controlled Select gets the correct value on first render; OR (b) verify the useEffect actually runs (add console.log) and that PRODUCTS.includes match is exact. The Radix Select sometimes does not re-render placeholder->value transition cleanly when the underlying value flips after initial mount."
+  ],
+  "critical_code_review_comments": [
+    "ContactPage.jsx line 22-27: useEffect-based prefill is fragile against Radix Select; prefer a useState lazy initializer using useSearchParams so initial controlled value is correct on first paint.",
+    "MultiStepCalculator.jsx live-preview useEffect (line 127) fires a debounced POST to /api/calc/funding-estimate on every step/field change including step transitions — fine, but ensure backend rate-limits or the request is throttled if user types rapidly. 250ms debounce is probably enough.",
+    "MultiStepCalculator.jsx errs is computed via useMemo for the CURRENT step only — when on step 3, errs from step 1/2 are not recomputed, so a user could in theory mutate step-1 fields (e.g. via devtools / React state) without revalidation. Acceptable for normal flow but consider final validate-all on submit.",
+    "/api/leads/funding-calculator does not validate phone or email format server-side (Pydantic uses plain str). If text_opt_in=true, ensure downstream SMS sender re-validates the phone before sending.",
+    "ContactPage still imports Input + SelectField from the OLD FundingCalculator.jsx — fine for now but if FundingCalculator is ever deleted these will break; consider promoting Input/SelectField to a shared /components/forms module."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_iter3_multistep.py (new — 5 tests covering outstanding_balance, text_opt_in, large revenue)"
+  ],
+  "success_rate": {"backend": "100% (28/28 runnable; 2 admin-gated skipped)", "frontend": "~93% — every wizard interaction (revenue cap, validation, conditional outstanding, phone format, opt-in, submit, step-results, looking-more links, /funding-estimator usage) passed; only the ?product= prefill on ContactPage failed"},
+  "test_credentials": "N/A",
+  "seed_data_creation": "Test leads written via /api/leads/funding-calculator and /api/leads/contact with TEST_ prefix names; one live UI submission (TestFirst TestLast / TestBiz) also persisted from the playwright run.",
+  "retest_needed": true,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Backend URL: https://tmf-line-redesign.preview.emergentagent.com. Single confirmed bug: ContactPage product_interest prefill from ?product= query param does not populate the dropdown — verify after fix by navigating to /contact?product=Long-Term+Business+Loan and asserting `await page.text_content('[data-testid=\"contact-product\"]')` contains 'Long-Term Business Loan'. All other Iteration 3 flows verified end-to-end. Ms-more-longterm link href is correct ('/contact?product=Long-Term+Business+Loan') so the bug is purely on the receiving side. New backend test file: /app/backend/tests/test_iter3_multistep.py (5 tests).",
+  "rca_of_the_issue": "ContactPage uses `useEffect(() => { setForm({...,product_interest: p}) }, [searchParams])` AFTER the controlled <Select value={form.product_interest}> mounts with empty string. Radix UI Select renders the SelectValue placeholder when value is '' and in some cases does not transition to display the new value when it flips post-mount. Mitigation: read searchParams synchronously in the useState initializer so the Select is controlled with the correct value from the very first render."
+}

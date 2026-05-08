@@ -38,10 +38,12 @@ class FundingCalcInput(BaseModel):
     time_in_business: Optional[str] = ""
     credit_score: Optional[str] = ""
     existing_positions: Optional[str] = ""
+    outstanding_balance: Optional[float] = 0
     email: Optional[str] = ""
     phone: Optional[str] = ""
     desired_amount: Optional[float] = 0
     notes: Optional[str] = ""
+    text_opt_in: Optional[bool] = False
 
 
 class HelocInput(BaseModel):
@@ -66,7 +68,7 @@ class ContactLead(BaseModel):
 
 
 # ---------- Calculator logic ----------
-def estimate_funding(monthly_revenue: float, time_in_business: str, credit_score: str, existing_positions: str, industry: str):
+def estimate_funding(monthly_revenue: float, time_in_business: str, credit_score: str, existing_positions: str, industry: str, outstanding_balance: float = 0):
     base = max(0.0, float(monthly_revenue or 0))
     # 1st position advance: 75-150% of monthly revenue
     multiplier = 1.0
@@ -96,10 +98,13 @@ def estimate_funding(monthly_revenue: float, time_in_business: str, credit_score
     industry_boost = {"Restaurant / Food Service": 1.0, "Retail": 1.05, "E-Commerce": 1.05, "Construction": 0.95, "Healthcare": 1.1, "Transportation": 0.95, "Professional Services": 1.05, "Auto Repair": 1.0, "Beauty / Salon": 1.0, "Manufacturing": 1.05, "Real Estate": 0.95, "Technology": 1.1}
     multiplier *= industry_boost.get(industry, 1.0)
 
-    average = base * multiplier
-    conservative = round(average * 0.75 / 250) * 250
-    aggressive = round(average * 1.35 / 250) * 250
-    average = round(average / 250) * 250
+    gross_average = base * multiplier
+    # Outstanding balance reduces available capacity
+    ob = max(0.0, float(outstanding_balance or 0))
+    net_average = max(0.0, gross_average - ob * 0.5)
+    conservative = round(net_average * 0.75 / 250) * 250
+    aggressive = round(net_average * 1.35 / 250) * 250
+    average = round(net_average / 250) * 250
     return {
         "conservative": max(0, int(conservative)),
         "average": max(0, int(average)),
@@ -141,6 +146,7 @@ async def submit_funding_calculator(payload: FundingCalcInput):
         payload.credit_score or "",
         payload.existing_positions or "",
         payload.industry or "",
+        payload.outstanding_balance or 0,
     )
     doc = {
         "id": str(uuid.uuid4()),
@@ -173,6 +179,7 @@ async def calc_funding(payload: FundingCalcInput):
         payload.credit_score or "",
         payload.existing_positions or "",
         payload.industry or "",
+        payload.outstanding_balance or 0,
     )
     return {"estimate": estimate}
 

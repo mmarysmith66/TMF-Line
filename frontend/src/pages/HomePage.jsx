@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowUpRight, ArrowRight, Zap, ShieldCheck, Layers, Sparkles, CheckCircle2 } from "lucide-react";
 import StatStrip from "@/components/StatStrip";
-import FundingCalculator from "@/components/FundingCalculator";
+import MultiStepCalculator from "@/components/MultiStepCalculator";
 import SectionEyebrow from "@/components/SectionEyebrow";
 
 export default function HomePage() {
@@ -42,7 +42,7 @@ export default function HomePage() {
                 <StatStrip
                   items={[
                     { value: "1–24h", label: "Decision Speed" },
-                    { value: "$5K–$5M", label: "Funding Range" },
+                    { value: "$5K–∞", label: "Funding Range" },
                     { value: "37", label: "Products" },
                     { value: "Dedicated", label: "Guidance" },
                   ]}
@@ -51,7 +51,7 @@ export default function HomePage() {
             </div>
 
             <div className="lg:col-span-5 fade-up" style={{ animationDelay: "0.15s" }}>
-              <FundingCalculator />
+              <MultiStepCalculator compact />
             </div>
           </div>
         </div>
