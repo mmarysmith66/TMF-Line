@@ -42,7 +42,7 @@ export default function HomePage() {
                 <StatStrip
                   items={[
                     { value: "1–24h", label: "Decision Speed" },
-                    { value: (<>$5K&ndash;<span className="inline-block text-[2em] leading-[0.5] align-middle relative -top-[0.05em]">∞</span></>), label: "Funding Range" },
+                    { value: (<>$5K&ndash;<span className="inline-block text-[1.4em] leading-none align-middle relative -top-[0.04em]">∞</span></>), label: "Funding Range" },
                     { value: "37", label: "Products" },
                     { value: "Dedicated", label: "Guidance" },
                   ]}
