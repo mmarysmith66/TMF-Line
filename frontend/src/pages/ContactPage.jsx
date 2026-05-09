@@ -15,7 +15,6 @@ export default function ContactPage() {
     const p = searchParams.get("product");
     return {
       full_name: "", company: "", email: "", phone: "",
-      desired_amount: 0,
       product_interest: p && PRODUCTS.includes(p) ? p : "",
       notes: "",
     };
@@ -72,10 +71,11 @@ export default function ContactPage() {
                   <Field label="Company Name"><Input data-testid="contact-company" value={form.company} onChange={(e) => update("company", e.target.value)} /></Field>
                   <Field label="Email *"><Input data-testid="contact-email" type="email" value={form.email} onChange={(e) => update("email", e.target.value)} required /></Field>
                   <Field label="Phone"><Input data-testid="contact-phone" type="tel" value={form.phone} onChange={(e) => update("phone", e.target.value)} /></Field>
-                  <Field label="Desired Funding Amount"><Input data-testid="contact-amount" type="number" value={form.desired_amount} onChange={(e) => update("desired_amount", Number(e.target.value))} /></Field>
-                  <Field label="Product Interest">
-                    <SelectField testid="contact-product" value={form.product_interest} onChange={(v) => update("product_interest", v)} options={PRODUCTS} placeholder="Select a product" />
-                  </Field>
+                  <div className="md:col-span-2">
+                    <Field label="Product Interest">
+                      <SelectField testid="contact-product" value={form.product_interest} onChange={(v) => update("product_interest", v)} options={PRODUCTS} placeholder="Select a product" />
+                    </Field>
+                  </div>
                 </div>
                 <Field label="Additional Notes">
                   <textarea data-testid="contact-notes" rows={4} value={form.notes} onChange={(e) => update("notes", e.target.value)} className="w-full bg-[#0c0c0e] border border-white/[0.08] rounded-lg px-3.5 py-2.5 text-zinc-100 placeholder:text-zinc-600 focus:border-emerald-500/60 focus:ring-2 focus:ring-emerald-500/15 outline-none transition" />

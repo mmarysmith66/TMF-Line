@@ -3,11 +3,20 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowRight, ArrowLeft, Sparkles, CheckCircle2, MessageSquare, Mail } from "lucide-react";
+import { ArrowRight, ArrowLeft, Sparkles, CheckCircle2, MessageSquare, Mail, Utensils, ShoppingBag, HardHat, Truck, HeartPulse, Package, Scissors, MoreHorizontal } from "lucide-react";
 
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
-const INDUSTRIES = ["Restaurant / Food Service", "Retail", "E-Commerce", "Construction", "Healthcare", "Transportation", "Professional Services", "Auto Repair", "Beauty / Salon", "Manufacturing", "Real Estate", "Technology", "Other"];
+const INDUSTRY_OPTIONS = [
+  { value: "Restaurant / Food Service", label: "Restaurant", icon: Utensils },
+  { value: "Retail", label: "Retail", icon: ShoppingBag },
+  { value: "Construction", label: "Construction", icon: HardHat },
+  { value: "Transportation", label: "Trucking", icon: Truck },
+  { value: "Healthcare", label: "Healthcare", icon: HeartPulse },
+  { value: "Wholesale", label: "Wholesale", icon: Package },
+  { value: "Beauty / Salon", label: "Salon/Spa", icon: Scissors },
+  { value: "Other", label: "Other", icon: MoreHorizontal },
+];
 const TIBS = ["Under 6 months", "6 – 12 months", "1 – 2 years", "2 – 5 years", "5+ years"];
 const SCORES = ["500 – 549", "550 – 599", "600 – 649", "650 – 699", "700 – 749", "750+"];
 const POSITIONS = ["None", "1 position", "2 positions", "3+ positions"];
@@ -265,14 +274,39 @@ export default function MultiStepCalculator({ compact = false }) {
                 {showErr("business_name") && <p className="text-[0.7rem] text-rose-400 mt-1.5">{errs.business_name}</p>}
               </Field>
             </div>
-            <Field label="Industry" full={false}>
-              <SelectFld testid="ms-industry" value={form.industry} onChange={(v) => update("industry", v)} options={INDUSTRIES} placeholder="Select industry" />
-              {showErr("industry") && <p className="text-[0.7rem] text-rose-400 mt-1.5">{errs.industry}</p>}
-            </Field>
-            <Field label="Time in Business" full={false}>
-              <SelectFld testid="ms-tib" value={form.time_in_business} onChange={(v) => update("time_in_business", v)} options={TIBS} placeholder="Select" />
-              {showErr("time_in_business") && <p className="text-[0.7rem] text-rose-400 mt-1.5">{errs.time_in_business}</p>}
-            </Field>
+            <div className="md:col-span-2">
+              <Field label="Industry">
+                <div className="flex flex-wrap gap-2" data-testid="ms-industry-chips">
+                  {INDUSTRY_OPTIONS.map((opt) => {
+                    const Icon = opt.icon;
+                    const active = form.industry === opt.value;
+                    return (
+                      <button
+                        type="button"
+                        key={opt.value}
+                        data-testid={`ms-industry-${opt.label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
+                        onClick={() => update("industry", opt.value)}
+                        className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border text-sm transition ${
+                          active
+                            ? "border-emerald-400/40 bg-emerald-500/[0.08] text-white"
+                            : "border-white/[0.08] bg-white/[0.02] text-zinc-300 hover:border-white/[0.16] hover:text-white"
+                        }`}
+                      >
+                        <Icon className={`h-3.5 w-3.5 ${active ? "text-emerald-300" : "text-zinc-500"}`} />
+                        {opt.label}
+                      </button>
+                    );
+                  })}
+                </div>
+                {showErr("industry") && <p className="text-[0.7rem] text-rose-400 mt-2">{errs.industry}</p>}
+              </Field>
+            </div>
+            <div className="md:col-span-2">
+              <Field label="Time in Business">
+                <SelectFld testid="ms-tib" value={form.time_in_business} onChange={(v) => update("time_in_business", v)} options={TIBS} placeholder="Select" />
+                {showErr("time_in_business") && <p className="text-[0.7rem] text-rose-400 mt-1.5">{errs.time_in_business}</p>}
+              </Field>
+            </div>
           </div>
         )}
 
@@ -417,14 +451,14 @@ export default function MultiStepCalculator({ compact = false }) {
         {/* Live preview on steps 1-3 */}
         {step <= TOTAL_STEPS && estimate && (
           <div className="mt-6 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 flex items-center justify-between gap-3" data-testid="ms-preview">
-            <div>
+            <div className="min-w-0">
               <div className="font-mono uppercase tracking-[0.16em] text-[0.6rem] text-zinc-500">Estimated Match</div>
-              <div className="flex items-baseline gap-3 mt-1">
-                <span className="font-mono text-lg sm:text-xl text-white">{fmt(estimate.average)}</span>
-                <span className="font-mono text-[0.7rem] text-zinc-500">{fmt(estimate.conservative)} — {fmt(estimate.aggressive)}</span>
+              <div className="flex items-baseline gap-2 mt-1">
+                <span className="font-mono text-[0.7rem] text-zinc-500">Up to</span>
+                <span className="font-mono text-lg sm:text-xl text-white truncate">{fmt(estimate.aggressive)}</span>
               </div>
             </div>
-            <div className="hidden sm:flex items-center gap-1.5 text-[0.7rem] text-emerald-300/80 font-mono">
+            <div className="hidden sm:flex items-center gap-1.5 text-[0.7rem] text-emerald-300/80 font-mono shrink-0">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 pulse-dot" />
               Updating live
             </div>
