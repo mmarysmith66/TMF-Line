@@ -244,7 +244,7 @@ export default function MultiStepCalculator({ compact = false }) {
                 <SelectFld testid="ms-credit" value={form.credit_score} onChange={(v) => update("credit_score", v)} options={SCORES} placeholder="Select range" />
                 {showErr("credit_score") && <p className="text-[0.7rem] text-rose-400 mt-1.5">{errs.credit_score}</p>}
               </Field>
-              <Field label="Existing MCA Positions">
+              <Field label="MCA Positions">
                 <SelectFld testid="ms-positions" value={form.existing_positions} onChange={(v) => update("existing_positions", v)} options={POSITIONS} placeholder="Select positions" />
                 {showErr("existing_positions") && <p className="text-[0.7rem] text-rose-400 mt-1.5">{errs.existing_positions}</p>}
               </Field>

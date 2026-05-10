@@ -70,7 +70,6 @@ class ContactLead(BaseModel):
 # ---------- Calculator logic ----------
 def estimate_funding(monthly_revenue: float, time_in_business: str, credit_score: str, existing_positions: str, industry: str, outstanding_balance: float = 0):
     base = max(0.0, float(monthly_revenue or 0))
-    # 1st position advance: 75-150% of monthly revenue
     multiplier = 1.0
     # time in business
     tib_map = {
@@ -91,17 +90,28 @@ def estimate_funding(monthly_revenue: float, time_in_business: str, credit_score
         "750+": 1.25,
     }
     multiplier *= cs_map.get(credit_score, 1.0)
-    # existing positions
-    ep_map = {"None": 1.15, "1 position": 0.95, "2 positions": 0.75, "3+ positions": 0.55}
-    multiplier *= ep_map.get(existing_positions, 1.0)
-    # industry adjustment - light tweak
-    industry_boost = {"Restaurant / Food Service": 1.0, "Retail": 1.05, "E-Commerce": 1.05, "Construction": 0.95, "Healthcare": 1.1, "Transportation": 0.95, "Professional Services": 1.05, "Auto Repair": 1.0, "Beauty / Salon": 1.0, "Manufacturing": 1.05, "Real Estate": 0.95, "Technology": 1.1}
+    # industry adjustment
+    industry_boost = {"Restaurant / Food Service": 1.0, "Retail": 1.05, "E-Commerce": 1.05, "Construction": 0.95, "Healthcare": 1.1, "Transportation": 0.95, "Professional Services": 1.05, "Auto Repair": 1.0, "Beauty / Salon": 1.0, "Wholesale": 1.0, "Manufacturing": 1.05, "Real Estate": 0.95, "Technology": 1.1}
     multiplier *= industry_boost.get(industry, 1.0)
 
-    gross_average = base * multiplier
-    # Outstanding balance reduces available capacity
+    # First-position offer: what we'd give the business as a 1st-position advance
+    first_position_offer = base * multiplier
+
+    # Position-based outstanding balance penalty
+    # None  -> no penalty
+    # 1 pos -> 110% of outstanding balance is deducted
+    # 2 pos -> 120%
+    # 3+    -> 130%
+    penalty_pct_map = {
+        "None": 0.0,
+        "1 position": 1.10,
+        "2 positions": 1.20,
+        "3+ positions": 1.30,
+    }
+    penalty_pct = penalty_pct_map.get(existing_positions, 0.0)
     ob = max(0.0, float(outstanding_balance or 0))
-    net_average = max(0.0, gross_average - ob * 0.5)
+    net_average = max(0.0, first_position_offer - penalty_pct * ob)
+
     conservative = round(net_average * 0.75 / 250) * 250
     aggressive = round(net_average * 1.35 / 250) * 250
     average = round(net_average / 250) * 250
