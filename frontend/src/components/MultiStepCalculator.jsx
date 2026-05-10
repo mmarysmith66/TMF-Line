@@ -201,7 +201,12 @@ export default function MultiStepCalculator({ compact = false }) {
       <div className="relative">
         {/* Header */}
         <div className="flex items-center justify-between gap-3 mb-1">
-          <span className="text-lg sm:text-xl text-white font-semibold tracking-tight" data-testid="ms-title">Funding Calculator</span>
+          <span
+            data-testid="ms-title"
+            className="font-mono uppercase tracking-[0.22em] font-medium text-emerald-400 text-base sm:text-lg"
+          >
+            Funding Calculator
+          </span>
           {step <= TOTAL_STEPS && (
             <span className="font-mono text-[0.7rem] text-zinc-500 tracking-[0.18em] uppercase" data-testid="step-indicator">
               Step {step} / {TOTAL_STEPS}
