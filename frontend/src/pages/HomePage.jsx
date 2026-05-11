@@ -3,6 +3,7 @@ import { ArrowUpRight, ArrowRight, Zap, ShieldCheck, Layers, Sparkles, CheckCirc
 import StatStrip from "@/components/StatStrip";
 import MultiStepCalculator from "@/components/MultiStepCalculator";
 import SectionEyebrow from "@/components/SectionEyebrow";
+import FundingRange from "@/components/FundingRange";
 
 export default function HomePage() {
   return (
@@ -42,7 +43,7 @@ export default function HomePage() {
                 <StatStrip
                   items={[
                     { value: "1–24h", label: "Decision Speed" },
-                    { value: (<>$5K&ndash;<span className="inline-block text-[1.8em] leading-[0.55] align-middle relative top-[-0.04em]">∞</span></>), label: "Funding Range" },
+                    { value: <FundingRange />, label: "Funding Range" },
                     { value: "37", label: "Products" },
                     { value: "Dedicated", label: "Guidance" },
                   ]}

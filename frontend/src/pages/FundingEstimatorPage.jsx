@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import MultiStepCalculator from "@/components/MultiStepCalculator";
 import SectionEyebrow from "@/components/SectionEyebrow";
 import FAQ from "@/components/FAQ";
+import FundingRange from "@/components/FundingRange";
 
 const PRODUCTS = [
   { t: "Merchant Cash Advance", range: "$5K – $500K", term: "3 – 18 months", funding: "1 – 3 days", body: "Fast capital with flexible daily or weekly remittances based on your revenue.", to: "/mca" },
@@ -70,7 +71,7 @@ export default function FundingEstimatorPage() {
         <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-px bg-white/[0.05] border border-white/[0.05] rounded-2xl overflow-hidden">
           {[
             { v: "75–150%", l: "1st Position Advance" },
-            { v: "$5K–∞", l: "MCA Funding Range" },
+            { v: <FundingRange />, l: "MCA Funding Range" },
             { v: "500+", l: "Min Credit Accepted" },
             { v: "3–6 mo", l: "Statements Needed" },
           ].map((s, i) => (
