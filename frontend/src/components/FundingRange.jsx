@@ -4,7 +4,7 @@ export default function FundingRange({ className = "" }) {
       $5K&ndash;
       <span
         aria-label="infinity"
-        className="inline-block leading-none ml-[0.06em] text-[1.75em] relative top-[0.08em]"
+        className="inline-block leading-none ml-[0.06em] text-[1.75em] relative top-[-0.22em]"
       >
         ∞
       </span>
