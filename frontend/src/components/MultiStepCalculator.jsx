@@ -450,22 +450,7 @@ export default function MultiStepCalculator({ compact = false }) {
           </div>
         )}
 
-        {/* Live preview on steps 1-3 */}
-        {step <= TOTAL_STEPS && estimate && (
-          <div className="mt-6 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 flex items-center justify-between gap-3" data-testid="ms-preview">
-            <div className="min-w-0">
-              <div className="font-mono uppercase tracking-[0.16em] text-[0.6rem] text-zinc-500">Estimated Match</div>
-              <div className="flex items-baseline gap-2 mt-1">
-                <span className="font-mono text-[0.7rem] text-zinc-500">Up to</span>
-                <span className="font-mono text-lg sm:text-xl text-white truncate">{fmt(estimate.aggressive)}</span>
-              </div>
-            </div>
-            <div className="hidden sm:flex items-center gap-1.5 text-[0.7rem] text-emerald-300/80 font-mono shrink-0">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 pulse-dot" />
-              Updating live
-            </div>
-          </div>
-        )}
+        {/* Live preview removed per request */}
 
         {/* Footer / Navigation */}
         {step <= TOTAL_STEPS && (
