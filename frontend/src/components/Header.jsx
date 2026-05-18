@@ -9,6 +9,7 @@ const NAV = [
   { to: "/long-term-loans", label: "Long-Term Loans" },
   { to: "/heloc-calculator", label: "HELOC" },
   { to: "/funding-estimator", label: "Funding Calculator" },
+  { to: "/apply", label: "Apply" },
   { to: "/about", label: "About" },
 ];
 
@@ -59,8 +60,8 @@ export default function Header() {
         </nav>
 
         <div className="hidden lg:flex items-center gap-3">
-          <Link to="/contact" data-testid="header-cta-button" className="btn-accent text-[0.88rem] py-2.5 px-4">
-            Get Funded <ArrowUpRight className="h-4 w-4" />
+          <Link to="/apply" data-testid="header-cta-button" className="btn-accent text-[0.88rem] py-2.5 px-4">
+            Apply Now <ArrowUpRight className="h-4 w-4" />
           </Link>
         </div>
 
@@ -92,8 +93,8 @@ export default function Header() {
                 {item.label}
               </NavLink>
             ))}
-            <Link to="/contact" data-testid="mobile-cta-button" className="btn-accent mt-3 justify-center">
-              Get Funded <ArrowUpRight className="h-4 w-4" />
+            <Link to="/apply" data-testid="mobile-cta-button" className="btn-accent mt-3 justify-center">
+              Apply Now <ArrowUpRight className="h-4 w-4" />
             </Link>
           </div>
         </div>

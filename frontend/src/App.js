@@ -8,6 +8,7 @@ import HelocCalculatorPage from "@/pages/HelocCalculatorPage";
 import LongTermLoansPage from "@/pages/LongTermLoansPage";
 import FundingEstimatorPage from "@/pages/FundingEstimatorPage";
 import AboutPage from "@/pages/AboutPage";
+import ApplyPage from "@/pages/ApplyPage";
 import ContactPage from "@/pages/ContactPage";
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path="/long-term-loans" element={<LongTermLoansPage />} />
           <Route path="/funding-estimator" element={<FundingEstimatorPage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/apply" element={<ApplyPage />} />
           <Route path="/contact" element={<ContactPage />} />
         </Route>
       </Routes>

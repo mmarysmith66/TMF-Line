@@ -67,6 +67,42 @@ class ContactLead(BaseModel):
     notes: Optional[str] = ""
 
 
+class ApplicationSubmit(BaseModel):
+    model_config = ConfigDict(extra="allow")
+    # Step 1
+    first_name: str
+    last_name: str
+    date_of_birth: Optional[str] = ""
+    ssn: Optional[str] = ""
+    email: EmailStr
+    mobile_phone: str
+    legal_company_name: str
+    # Step 2
+    dba_name: Optional[str] = ""
+    business_street: Optional[str] = ""
+    business_city: Optional[str] = ""
+    business_state: Optional[str] = ""
+    business_zip: Optional[str] = ""
+    business_phone: Optional[str] = ""
+    ein: Optional[str] = ""
+    business_type: Optional[str] = ""
+    industry: Optional[str] = ""
+    date_business_started: Optional[str] = ""
+    employees: Optional[str] = ""
+    annual_revenue: Optional[float] = 0
+    monthly_revenue: Optional[float] = 0
+    time_in_business: Optional[str] = ""
+    # Step 3 (placeholders)
+    docs_acknowledged: Optional[bool] = False
+    # Step 4
+    consent_communications: bool = False
+    consent_credit_check: bool = False
+    consent_accuracy: bool = False
+    signature_image_base64: Optional[str] = ""
+    signature_typed_name: str
+    signature_date: str
+
+
 # ---------- Calculator logic ----------
 def estimate_funding(monthly_revenue: float, time_in_business: str, credit_score: str, existing_positions: str, industry: str, outstanding_balance: float = 0):
     base = max(0.0, float(monthly_revenue or 0))
@@ -178,6 +214,22 @@ async def submit_contact(payload: ContactLead):
         "data": payload.model_dump(),
     }
     await db.leads.insert_one(doc)
+    return {"id": doc["id"], "ok": True}
+
+
+@api_router.post("/applications/submit")
+async def submit_application(payload: ApplicationSubmit):
+    if not (payload.consent_communications and payload.consent_credit_check and payload.consent_accuracy):
+        raise HTTPException(422, "All consent boxes must be checked")
+    if not payload.signature_typed_name.strip():
+        raise HTTPException(422, "Signature name is required")
+    doc = {
+        "id": str(uuid.uuid4()),
+        "type": "application",
+        "created_at": _now_iso(),
+        "data": payload.model_dump(),
+    }
+    await db.applications.insert_one(doc)
     return {"id": doc["id"], "ok": True}
 
 
