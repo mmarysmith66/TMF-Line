@@ -461,17 +461,17 @@ export default function ApplyPage() {
 
       {!done && (
         <section className="container-x pb-16">
-          <div className="grid sm:grid-cols-3 gap-3" data-testid="apply-trust">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3" data-testid="apply-trust">
             {[
               { t: "1–24h decisions", b: "Average turnaround on application review." },
               { t: "Transparent terms", b: "Clear documentation, zero hidden fees." },
               { t: "Dedicated advisor", b: "A funding specialist guides your file end-to-end." },
             ].map((t, i) => (
-              <div key={i} className="card-surface p-5 flex items-start gap-3">
+              <div key={i} className="card-surface p-5 flex items-start gap-3 w-full h-full min-h-[112px]">
                 <CheckCircle2 className="h-5 w-5 text-emerald-300 shrink-0 mt-0.5" />
-                <div>
+                <div className="min-w-0 flex-1">
                   <div className="text-white tracking-tight text-sm">{t.t}</div>
-                  <div className="text-zinc-500 text-[0.85rem] mt-1">{t.b}</div>
+                  <div className="text-zinc-500 text-[0.85rem] mt-1 leading-relaxed">{t.b}</div>
                 </div>
               </div>
             ))}
