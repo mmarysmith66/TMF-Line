@@ -152,7 +152,7 @@ export default function ApplyPage() {
             </div>
           </div>
         ) : (
-          <div className="grid lg:grid-cols-12 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6">
             {/* Step rail */}
             <aside className="lg:col-span-3" data-testid="apply-rail">
               <ol className="flex lg:flex-col gap-2 lg:gap-2 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0 -mx-1 lg:mx-0 px-1 lg:px-0 snap-x">
