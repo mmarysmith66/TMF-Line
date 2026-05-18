@@ -126,16 +126,16 @@ export default function ApplyPage() {
     <div data-testid="apply-page">
       <section className="relative overflow-hidden">
         <img src="/images/contact_atmosphere.png" alt="" className="absolute inset-0 w-full h-full object-cover opacity-25 [mask-image:linear-gradient(to_bottom,black,transparent_80%)]" />
-        <div className="container-x relative pt-12 md:pt-20 pb-10">
+        <div className="container-x relative pt-8 md:pt-20 pb-8 md:pb-10">
           <div className="eyebrow">Apply for Funding</div>
-          <h1 className="h1 mt-5 max-w-4xl">Four steps to <span className="gradient-text">your funding match.</span></h1>
-          <p className="body-lg mt-6 max-w-2xl">
-            Thank you for placing your trust in us. Please take a few minutes to complete the form below — we'll process your application right away.
+          <h1 className="h1 mt-4 md:mt-5 max-w-4xl">Four steps to <span className="gradient-text">your funding match.</span></h1>
+          <p className="body-lg mt-5 md:mt-6 max-w-2xl text-[0.95rem] sm:text-base md:text-lg">
+            Thank you for placing your trust in us. Please take a few minutes to complete the form — we'll process your application right away.
           </p>
         </div>
       </section>
 
-      <section ref={formRef} className="container-x pb-20">
+      <section ref={formRef} className="container-x pb-16 md:pb-20">
         {done ? (
           <div className="glass-strong rounded-2xl p-10 md:p-14 text-center" data-testid="apply-success">
             <div className="mx-auto h-14 w-14 rounded-full border border-emerald-400/30 bg-emerald-500/10 flex items-center justify-center text-emerald-300">
@@ -155,17 +155,17 @@ export default function ApplyPage() {
           <div className="grid lg:grid-cols-12 gap-6">
             {/* Step rail */}
             <aside className="lg:col-span-3" data-testid="apply-rail">
-              <ol className="flex lg:flex-col gap-3 lg:gap-2 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0">
+              <ol className="flex lg:flex-col gap-2 lg:gap-2 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0 -mx-1 lg:mx-0 px-1 lg:px-0 snap-x">
                 {STEPS.map((s) => {
                   const Icon = s.icon;
                   const active = step === s.n;
                   const completed = step > s.n;
                   return (
-                    <li key={s.n} className="shrink-0 lg:shrink">
+                    <li key={s.n} className="shrink-0 lg:shrink snap-start min-w-[42%] sm:min-w-[28%] lg:min-w-0">
                       <button
                         type="button"
                         onClick={() => completed && setStep(s.n)}
-                        className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl border transition text-left ${
+                        className={`w-full flex items-center gap-2.5 lg:gap-3 px-3 lg:px-4 py-2.5 lg:py-3 rounded-xl border transition text-left ${
                           active
                             ? "border-emerald-400/40 bg-emerald-500/[0.06] text-white"
                             : completed
@@ -174,14 +174,16 @@ export default function ApplyPage() {
                         }`}
                         data-testid={`apply-rail-${s.n}`}
                       >
-                        <span className={`h-7 w-7 rounded-full flex items-center justify-center text-xs font-mono ${
+                        <span className={`h-6 w-6 lg:h-7 lg:w-7 rounded-full shrink-0 flex items-center justify-center text-[0.7rem] lg:text-xs font-mono ${
                           completed ? "bg-emerald-500 text-[#03110b]" : active ? "bg-white/[0.06] text-emerald-300" : "bg-white/[0.04] text-zinc-500"
                         }`}>
                           {completed ? <Check className="h-3.5 w-3.5" /> : s.n}
                         </span>
-                        <div className="flex flex-col">
-                          <span className="font-mono uppercase tracking-[0.18em] text-[0.62rem] text-zinc-500">Step {s.n}</span>
-                          <span className="text-sm tracking-tight"><Icon className="inline h-3.5 w-3.5 mr-1.5 align-baseline" />{s.t}</span>
+                        <div className="flex flex-col min-w-0">
+                          <span className="font-mono uppercase tracking-[0.16em] text-[0.58rem] lg:text-[0.62rem] text-zinc-500">Step {s.n}</span>
+                          <span className="text-[0.82rem] lg:text-sm tracking-tight truncate">
+                            <Icon className="inline h-3 w-3 lg:h-3.5 lg:w-3.5 mr-1 lg:mr-1.5 align-baseline" />{s.t}
+                          </span>
                         </div>
                       </button>
                     </li>
@@ -190,13 +192,13 @@ export default function ApplyPage() {
               </ol>
             </aside>
 
-            <div className="lg:col-span-9 glass-strong rounded-2xl p-6 md:p-10">
+            <div className="lg:col-span-9 glass-strong rounded-2xl p-5 sm:p-6 md:p-10">
               {/* STEP 1 - CONTACT */}
               {step === 1 && (
                 <div data-testid="apply-step-1">
                   <span className="eyebrow">Contact Information</span>
-                  <h3 className="h2 mt-3">Let's start with the basics.</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-7">
+                  <h3 className="h3 sm:h2 mt-3 text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight">Let's start with the basics.</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 mt-6 md:mt-7">
                     <Field label="First Name *" err={showErr("first_name") && errs.first_name}>
                       <Input data-testid="apply-first" value={form.first_name} onChange={(e) => update("first_name", e.target.value)} />
                     </Field>
@@ -221,6 +223,30 @@ export default function ApplyPage() {
                       </Field>
                     </div>
                   </div>
+
+                  {/* Consent block — informational; final agreement is on Step 4 */}
+                  <div className="mt-7 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 sm:p-5" data-testid="apply-step1-consent">
+                    <div className="font-mono uppercase tracking-[0.16em] text-[0.62rem] text-emerald-400 mb-3">Consent to Communications</div>
+                    <div className="text-zinc-400 text-[0.82rem] sm:text-sm leading-relaxed max-h-44 sm:max-h-56 overflow-y-auto pr-2">
+                      <p>
+                        By providing your contact information and signing on the final step, you authorize{" "}
+                        <span className="text-zinc-200">TMF Line</span> and its representatives, successors, assigns, and designees to
+                        communicate with you via phone calls, text messages, and emails — including automated technology and pre-recorded
+                        messages — for informational, marketing, or transactional purposes. Standard message and data rates may apply.
+                        Message frequency may vary. You may opt out at any time by replying "STOP" to text messages, unsubscribing from
+                        emails, or contacting us directly. For help, reply "HELP" or contact{" "}
+                        <span className="text-emerald-300 font-mono">support@tmfline.online</span>.
+                      </p>
+                      <p className="mt-3">
+                        You further authorize TMF Line and its designees to obtain consumer, personal, business, and investigative reports
+                        about you from consumer reporting agencies (including TransUnion, Experian, Equifax, and Identity IQ), banks,
+                        creditors, government agencies, and other third parties for purposes related to commercial loans or purchases of
+                        future receivables. Your information will be handled per our{" "}
+                        <Link to="/" className="text-emerald-300 underline">Terms of Use and Privacy Policy</Link>. You will sign and
+                        confirm these authorizations on Step 4.
+                      </p>
+                    </div>
+                  </div>
                 </div>
               )}
 
@@ -228,8 +254,8 @@ export default function ApplyPage() {
               {step === 2 && (
                 <div data-testid="apply-step-2">
                   <span className="eyebrow">Business Details</span>
-                  <h3 className="h2 mt-3">Tell us about {form.legal_company_name || "your business"}.</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-7">
+                  <h3 className="mt-3 text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight">Tell us about {form.legal_company_name || "your business"}.</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 mt-6 md:mt-7">
                     <div className="md:col-span-2">
                       <Field label="DBA / Trade Name (if different)">
                         <Input data-testid="apply-dba" value={form.dba_name} onChange={(e) => update("dba_name", e.target.value)} />
@@ -286,12 +312,12 @@ export default function ApplyPage() {
               {step === 3 && (
                 <div data-testid="apply-step-3">
                   <span className="eyebrow">Basic Documents</span>
-                  <h3 className="h2 mt-3">We'll request these by email.</h3>
+                  <h3 className="mt-3 text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight">We'll request these by email.</h3>
                   <p className="body mt-4">
                     To process your application, our team will reach out to request the following. No upload is required right now —
                     a funding specialist will send you a secure document link within 24 hours.
                   </p>
-                  <div className="mt-7 grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="mt-6 md:mt-7 grid grid-cols-1 md:grid-cols-2 gap-3">
                     {[
                       { t: "3 Months of Business Bank Statements", b: "Most recent statements for your business operating account." },
                       { t: "Driver's License (Front & Back)", b: "Government-issued photo ID for the business principal." },
@@ -336,7 +362,7 @@ export default function ApplyPage() {
               {step === 4 && (
                 <div data-testid="apply-step-4">
                   <span className="eyebrow">Signature & Consent</span>
-                  <h3 className="h2 mt-3">Authorize and sign.</h3>
+                  <h3 className="mt-3 text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight">Authorize and sign.</h3>
 
                   <div className="mt-6 rounded-xl border border-white/[0.06] bg-white/[0.02] p-5 text-sm text-zinc-400 leading-relaxed max-h-72 overflow-y-auto" data-testid="apply-consent-text">
                     <p>
@@ -388,7 +414,7 @@ export default function ApplyPage() {
                     <p className="text-[0.7rem] text-rose-400 mt-2">All three consent boxes must be checked.</p>
                   )}
 
-                  <div className="mt-7 grid grid-cols-1 md:grid-cols-3 gap-5">
+                  <div className="mt-6 md:mt-7 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
                     <div className="md:col-span-2">
                       <Field label="Signature *" err={showErr("signature_image_base64") && errs.signature_image_base64}>
                         <SignaturePad value={form.signature_image_base64} onChange={(v) => update("signature_image_base64", v)} testid="apply-signature" />
