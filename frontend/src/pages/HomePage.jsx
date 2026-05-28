@@ -92,7 +92,7 @@ export default function HomePage() {
         />
         <div className="mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {[
-            { to: "/long-term-loans", title: "Long-Term Business Loans", range: "$50K – $5M", term: "1 – 10 years", body: "Predictable monthly payments for sustained growth, expansion, or refinancing." },
+            { to: "/long-term-loans", title: "Long-Term Business Loans", range: "$50K – $10M", term: "1 – 10 years", body: "Predictable monthly payments for sustained growth, expansion, or refinancing." },
             { to: "/mca", title: "Revenue Based Financing (RBF)", range: "$5K – $500K", term: "3 – 18 months", body: "Fast capital with revenue-aligned remittances. Funded as fast as same-day." },
             { to: "/heloc-calculator", title: "HELOC Calculator", range: "$25K – $500K", term: "10 – 30 years", body: "Leverage your home equity for business capital with competitive rates." },
             { to: "/funding-estimator", title: "Revenue-Based Estimator", range: "Instant Output", term: "Real-time", body: "Get matched to the right products based on revenue, credit, and time in business." },

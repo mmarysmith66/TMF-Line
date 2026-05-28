@@ -435,7 +435,7 @@ export default function MultiStepCalculator({ compact = false }) {
                     <div className="flex items-center justify-between">
                       <div>
                         <div className="text-sm text-white tracking-tight">Talk to a long-term loan specialist</div>
-                        <div className="text-xs text-zinc-500 mt-0.5">$50K – $5M · Predictable monthly payments · 1–10yr</div>
+                        <div className="text-xs text-zinc-500 mt-0.5">$50K – $10M · Predictable monthly payments · 1–10yr</div>
                       </div>
                       <ArrowRight className="h-4 w-4 text-zinc-500 group-hover:text-emerald-300 group-hover:translate-x-0.5 transition" />
                     </div>

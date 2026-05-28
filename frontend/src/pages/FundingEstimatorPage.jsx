@@ -7,9 +7,9 @@ import FundingRange from "@/components/FundingRange";
 const PRODUCTS = [
   { t: "Revenue Based Financing (RBF)", range: "$5K – $500K", term: "3 – 18 months", funding: "1 – 3 days", body: "Fast capital with flexible daily or weekly remittances based on your revenue.", to: "/mca" },
   { t: "Line of Credit", range: "$10K – $250K", term: "Revolving", funding: "3 – 7 days", body: "Revolving credit line you draw from as needed. Only pay for what you use.", to: "/contact" },
-  { t: "Equipment Financing", range: "$10K – $5M", term: "1 – 7 years", funding: "3 – 10 days", body: "Finance machinery, technology, vehicles, or other essential business equipment.", to: "/contact" },
+  { t: "Equipment Financing", range: "$10K – $10M", term: "1 – 7 years", funding: "3 – 10 days", body: "Finance machinery, technology, vehicles, or other essential business equipment.", to: "/contact" },
   { t: "HELOC", range: "$25K – $500K", term: "10 – 30 years", funding: "2 – 4 weeks", body: "Leverage your home equity for business capital with competitive rates.", to: "/heloc-calculator" },
-  { t: "Long-Term Business Loan", range: "$50K – $5M", term: "1 – 10 years", funding: "5 – 14 days", body: "Structured financing with predictable monthly payments for sustained growth.", to: "/long-term-loans" },
+  { t: "Long-Term Business Loan", range: "$50K – $10M", term: "1 – 10 years", funding: "5 – 14 days", body: "Structured financing with predictable monthly payments for sustained growth.", to: "/long-term-loans" },
 ];
 
 const FAQS = [

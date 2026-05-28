@@ -13,7 +13,7 @@ const USE_CASES = [
 const BENEFITS = [
   "Predictable fixed monthly payments for easier budgeting",
   "Lower monthly cost compared to short-term products",
-  "Larger funding amounts available ($50K – $5M typical range)",
+  "Larger funding amounts available ($50K – $10M typical range)",
   "Build business credit history with consistent repayment",
   "Retain full ownership — no equity dilution",
   "Potential tax-deductible interest payments",
@@ -24,7 +24,7 @@ const QUAL = [
   { l: "Annual Revenue", v: "$250K+ preferred" },
   { l: "Credit Score", v: "650+ (varies)" },
   { l: "Loan Terms", v: "1 – 10 years" },
-  { l: "Funding Amount", v: "$50K – $5M" },
+  { l: "Funding Amount", v: "$50K – $10M" },
 ];
 
 const FAQS = [
