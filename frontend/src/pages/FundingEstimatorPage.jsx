@@ -5,7 +5,7 @@ import FAQ from "@/components/FAQ";
 import FundingRange from "@/components/FundingRange";
 
 const PRODUCTS = [
-  { t: "Merchant Cash Advance", range: "$5K – $500K", term: "3 – 18 months", funding: "1 – 3 days", body: "Fast capital with flexible daily or weekly remittances based on your revenue.", to: "/mca" },
+  { t: "Revenue Based Financing (RBF)", range: "$5K – $500K", term: "3 – 18 months", funding: "1 – 3 days", body: "Fast capital with flexible daily or weekly remittances based on your revenue.", to: "/mca" },
   { t: "Line of Credit", range: "$10K – $250K", term: "Revolving", funding: "3 – 7 days", body: "Revolving credit line you draw from as needed. Only pay for what you use.", to: "/contact" },
   { t: "Equipment Financing", range: "$10K – $5M", term: "1 – 7 years", funding: "3 – 10 days", body: "Finance machinery, technology, vehicles, or other essential business equipment.", to: "/contact" },
   { t: "HELOC", range: "$25K – $500K", term: "10 – 30 years", funding: "2 – 4 weeks", body: "Leverage your home equity for business capital with competitive rates.", to: "/heloc-calculator" },
@@ -17,7 +17,7 @@ const FAQS = [
   { q: "How does industry affect funding amounts?", a: "Higher-margin and more stable industries (healthcare, professional services, technology) often unlock slightly higher multiples. More volatile industries can see tighter ratios but still qualify with solid revenue." },
   { q: "How does time in business affect the amount?", a: "Time in business is a major risk indicator. Businesses under 6 months see significantly reduced funding multiples; 2+ years and 5+ years tend to receive the most favorable structures." },
   { q: "What role does credit score play?", a: "Credit influences pricing more than approval. Even sub-600 credit profiles can qualify for many revenue-based products — but stronger credit unlocks better factor rates and longer terms." },
-  { q: "How do existing positions affect funding?", a: "Each existing MCA position increases risk and reduces additional funding capacity. Clean, single-position files typically have the most flexibility for new advances." },
+  { q: "How do existing positions affect funding?", a: "Each existing RBF position increases risk and reduces additional funding capacity. Clean, single-position files typically have the most flexibility for new advances." },
 ];
 
 export default function FundingEstimatorPage() {
@@ -67,13 +67,13 @@ export default function FundingEstimatorPage() {
       </section>
 
       <section className="container-x section-y">
-        <SectionEyebrow label="Methodology" title="How MCA funding amounts are determined." />
+        <SectionEyebrow label="Methodology" title="How RBF funding amounts are determined." />
         <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-px bg-white/[0.05] border border-white/[0.05] rounded-2xl overflow-hidden">
           {[
             { v: "75–150%", l: "1st Position Advance" },
-            { v: <FundingRange />, l: "MCA Funding Range" },
+            { v: <FundingRange />, l: "RBF Funding Range" },
+            { v: "1.05–1.45", l: "Factor Rate" },
             { v: "500+", l: "Min Credit Accepted" },
-            { v: "3–6 mo", l: "Statements Needed" },
           ].map((s, i) => (
             <div key={i} className="bg-[#0b0b0d] p-5 md:p-8 min-w-0" data-testid={`est-method-${i}`}>
               <div className="font-mono text-lg sm:text-xl md:text-2xl text-white tracking-tight break-words">{s.v}</div>

@@ -7,7 +7,7 @@ import { ArrowRight, Lock } from "lucide-react";
 
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
-const PRODUCTS = ["Long-Term Business Loan", "Merchant Cash Advance", "Line of Credit", "Equipment Financing", "HELOC", "Not Sure Yet"];
+const PRODUCTS = ["Long-Term Business Loan", "Revenue Based Financing", "Line of Credit", "Equipment Financing", "HELOC", "Not Sure Yet"];
 
 export default function ContactPage() {
   const [searchParams] = useSearchParams();

@@ -5,7 +5,7 @@ import Logo from "@/components/Logo";
 
 const NAV = [
   { to: "/", label: "Home" },
-  { to: "/mca", label: "Cash Injection" },
+  { to: "/mca", label: "Revenue Based Financing" },
   { to: "/long-term-loans", label: "Long-Term Loans" },
   { to: "/heloc-calculator", label: "HELOC" },
   { to: "/funding-estimator", label: "Funding Calculator" },

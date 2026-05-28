@@ -7,7 +7,7 @@ const cols = [
     title: "Products",
     links: [
       { to: "/long-term-loans", label: "Long-Term Loans" },
-      { to: "/mca", label: "Cash Injection (MCA)" },
+      { to: "/mca", label: "Revenue Based Financing (RBF)" },
       { to: "/heloc-calculator", label: "HELOC Calculator" },
       { to: "/funding-estimator", label: "Funding Estimator" },
     ],

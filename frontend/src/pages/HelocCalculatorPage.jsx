@@ -18,8 +18,9 @@ const SCORES = [
 
 const FAQS = [
   { q: "How does a HELOC work?", a: "A Home Equity Line of Credit lets you borrow against the equity in your home. You draw funds during a draw period (often 5–10 years) and repay during a repayment period (often 10–20 years). You only pay interest on what you actually use." },
+  { q: "How does LTV work?", a: "Loan-to-Value (LTV) is the ratio of total debt secured against your home divided by your home's appraised value. Max LTV up to 95% is available when TMF Line is the 1st lien (no other mortgage). Max LTV up to 85% is available when we are the 2nd lien (behind an existing mortgage). Stronger credit and lower debt-to-income typically unlock the upper LTV tiers." },
   { q: "Draw period vs. repayment period", a: "During the draw period, you can withdraw up to your credit limit and typically make interest-only payments. After the draw period closes, you enter the repayment period and start paying back principal and interest in fixed installments." },
-  { q: "Common qualification factors", a: "Lenders typically review your home equity (home value minus mortgage), credit score, debt-to-income ratio, and stable income. A combined loan-to-value (CLTV) up to 80–90% is common, with stronger credit unlocking the upper tiers." },
+  { q: "Common qualification factors", a: "Lenders typically review your home equity (home value minus mortgage), credit score, debt-to-income ratio, and stable income. Combined loan-to-value (CLTV) maximums depend on lien position — see the LTV breakdown above." },
   { q: "HELOC vs. Home Equity Loan", a: "A HELOC is a revolving credit line — flexible draws, variable rate. A home equity loan is a one-time lump sum at a fixed rate. HELOCs are better for ongoing needs; equity loans for a single defined purpose." },
 ];
 
@@ -120,6 +121,60 @@ export default function HelocCalculatorPage() {
               <Link to="/contact" data-testid="heloc-cta" className="btn-accent w-full mt-6">Connect with our team <ArrowRight className="h-4 w-4" /></Link>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="container-x section-y">
+        <SectionEyebrow label="LTV Breakdown" title="How loan-to-value works." description="Your maximum Loan-to-Value depends on lien position. Stronger credit and lower debt-to-income unlock the upper end of each tier." />
+        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-4" data-testid="heloc-ltv-breakdown">
+          <div className="card-surface p-7 md:p-8 relative overflow-hidden" data-testid="heloc-ltv-1lien">
+            <div className="absolute -top-16 -right-16 h-40 w-40 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none" />
+            <div className="relative">
+              <div className="font-mono uppercase tracking-[0.18em] text-[0.7rem] text-emerald-400">1st Lien Position</div>
+              <div className="mt-4 flex items-baseline gap-2">
+                <span className="font-mono text-4xl md:text-5xl text-white tracking-tight">95%</span>
+                <span className="text-zinc-500 text-sm">max LTV</span>
+              </div>
+              <p className="body mt-5 text-[0.95rem]">
+                When TMF Line is in 1st lien position (no other mortgage on the property), you can borrow against up to <span className="text-zinc-200">95%</span> of the home's appraised value.
+              </p>
+              <ul className="mt-5 space-y-2 text-sm text-zinc-400">
+                <li className="flex items-start gap-2"><span className="h-1 w-1 rounded-full bg-emerald-400 mt-2 shrink-0" /> No existing mortgage required</li>
+                <li className="flex items-start gap-2"><span className="h-1 w-1 rounded-full bg-emerald-400 mt-2 shrink-0" /> Highest available borrowing capacity</li>
+                <li className="flex items-start gap-2"><span className="h-1 w-1 rounded-full bg-emerald-400 mt-2 shrink-0" /> Best rates typically reserved for this tier</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="card-surface p-7 md:p-8 relative overflow-hidden" data-testid="heloc-ltv-2lien">
+            <div className="absolute -top-16 -right-16 h-40 w-40 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none" />
+            <div className="relative">
+              <div className="font-mono uppercase tracking-[0.18em] text-[0.7rem] text-cyan-300">2nd Lien Position</div>
+              <div className="mt-4 flex items-baseline gap-2">
+                <span className="font-mono text-4xl md:text-5xl text-white tracking-tight">85%</span>
+                <span className="text-zinc-500 text-sm">max combined LTV</span>
+              </div>
+              <p className="body mt-5 text-[0.95rem]">
+                When there's an existing mortgage and TMF Line sits in 2nd lien position, your combined loan-to-value (CLTV) is capped at <span className="text-zinc-200">85%</span> of the home's appraised value.
+              </p>
+              <ul className="mt-5 space-y-2 text-sm text-zinc-400">
+                <li className="flex items-start gap-2"><span className="h-1 w-1 rounded-full bg-cyan-300 mt-2 shrink-0" /> Sits behind your existing 1st mortgage</li>
+                <li className="flex items-start gap-2"><span className="h-1 w-1 rounded-full bg-cyan-300 mt-2 shrink-0" /> Works for borrowers who want to keep a low-rate 1st</li>
+                <li className="flex items-start gap-2"><span className="h-1 w-1 rounded-full bg-cyan-300 mt-2 shrink-0" /> CLTV = (1st balance + new HELOC) ÷ appraised value</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6 rounded-xl border border-white/[0.06] bg-white/[0.02] p-5 text-sm text-zinc-400 leading-relaxed" data-testid="heloc-ltv-example">
+          <span className="font-mono uppercase tracking-[0.16em] text-[0.62rem] text-zinc-500">Quick example</span>
+          <p className="mt-3">
+            On a <span className="text-zinc-200">$600,000</span> home with an existing <span className="text-zinc-200">$300,000</span> mortgage:
+          </p>
+          <ul className="mt-3 space-y-1.5">
+            <li>· <span className="text-emerald-300">1st lien</span> (no existing mortgage): up to <span className="font-mono text-white">$570,000</span> available <span className="text-zinc-600">($600K × 95%)</span></li>
+            <li>· <span className="text-cyan-300">2nd lien</span> (behind the $300K 1st): up to <span className="font-mono text-white">$210,000</span> available <span className="text-zinc-600">($600K × 85% − $300K)</span></li>
+          </ul>
         </div>
       </section>
 

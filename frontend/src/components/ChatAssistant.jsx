@@ -7,7 +7,7 @@ const STORAGE_KEY = "tmfline_chat_session";
 
 const SUGGESTIONS = [
   "Which product fits a $40K monthly revenue retail store?",
-  "How does MCA remittance differ from a loan?",
+  "How does RBF remittance differ from a loan?",
   "What credit score do I need for a long-term loan?",
   "Can I use HELOC for business expansion?",
 ];
@@ -110,7 +110,7 @@ export default function ChatAssistant() {
             {messages.length === 0 && (
               <div className="space-y-4">
                 <div className="text-sm text-zinc-300 leading-relaxed">
-                  Hi — I can help you find the right funding product, explain how MCA, HELOC, or long-term loans work, and qualify your needs in a minute. What are you exploring?
+                  Hi — I can help you find the right funding product, explain how RBF, HELOC, or long-term loans work, and qualify your needs in a minute. What are you exploring?
                 </div>
                 <div className="space-y-2">
                   {SUGGESTIONS.map((s, i) => (

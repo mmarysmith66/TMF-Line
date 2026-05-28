@@ -18,10 +18,10 @@ const IDEAL = [
 ];
 
 const FAQS = [
-  { q: "How is MCA different from a traditional loan?", a: "MCA is not a loan — it is a purchase of future receivables. Instead of fixed monthly payments, remittances are taken as a small percentage of your daily or weekly revenue, so payments flex with your business volume." },
-  { q: "What are the typical costs of an MCA?", a: "Costs are expressed as a factor rate (e.g. 1.20–1.45) applied to the advance. The total cost depends on your business profile, time in business, credit, and revenue health. We always present the full cost upfront — no hidden fees." },
-  { q: "Do I need good credit for an MCA?", a: "MCA underwriting weighs revenue performance more heavily than personal credit. Many businesses with credit scores in the 500s qualify — though stronger credit typically improves rates and funding amounts." },
-  { q: "How much can I receive?", a: "Typical MCA advances range from $5K to $500K per position. Funding amounts are generally 75%–150% of monthly revenue, adjusted for industry, time in business, and any existing positions." },
+  { q: "How is RBF different from a traditional loan?", a: "Revenue Based Financing is not a loan — it is a purchase of future receivables. Instead of fixed monthly payments, remittances are taken as a small percentage of your daily or weekly revenue, so payments flex with your business volume." },
+  { q: "What are the typical costs of an RBF?", a: "Costs are expressed as a factor rate (e.g. 1.05–1.45) applied to the advance. The total cost depends on your business profile, time in business, credit, and revenue health. We always present the full cost upfront — no hidden fees." },
+  { q: "Do I need good credit for RBF?", a: "RBF underwriting weighs revenue performance more heavily than personal credit. Many businesses with credit scores in the 500s qualify — though stronger credit typically improves rates and funding amounts." },
+  { q: "How much can I receive?", a: "Typical RBF advances range from $5K to $500K per position. Funding amounts are generally 75%–150% of monthly revenue, adjusted for industry, time in business, and any existing positions." },
 ];
 
 export default function MCAPage() {
@@ -31,12 +31,12 @@ export default function MCAPage() {
         <img src="/images/mca_hero.png" alt="" className="absolute inset-0 w-full h-full object-cover opacity-35 [mask-image:linear-gradient(to_bottom,black,transparent_85%)]" />
         <div className="absolute inset-0 grid-bg opacity-30 [mask-image:radial-gradient(ellipse_at_top,black_30%,transparent_70%)]" />
         <div className="container-x relative pt-12 md:pt-20 pb-12">
-          <div className="eyebrow">Cash Injection</div>
+          <div className="eyebrow">Revenue Based Financing</div>
           <h1 className="h1 mt-5 max-w-4xl">
             Fast capital aligned <span className="gradient-text">with your revenue.</span>
           </h1>
           <p className="body-lg mt-6 max-w-2xl">
-            Merchant Cash Advance provides quick access to working capital based on your business performance.
+            Revenue Based Financing (RBF) provides quick access to working capital based on your business performance.
             Remittances flex with your daily or weekly revenue — when business is slower, payments adjust accordingly.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
@@ -64,7 +64,7 @@ export default function MCAPage() {
       <section className="container-x section-y">
         <div className="grid lg:grid-cols-12 gap-10 items-start">
           <div className="lg:col-span-5">
-            <SectionEyebrow label="Mechanics" title="How remittance works." description="Unlike fixed monthly payments, MCA remittances are based on a percentage of your daily or weekly business revenue." />
+            <SectionEyebrow label="Mechanics" title="How remittance works." description="Unlike fixed monthly payments, RBF remittances are based on a percentage of your daily or weekly business revenue." />
           </div>
           <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="card-surface p-7">
@@ -94,14 +94,14 @@ export default function MCAPage() {
       <section className="container-x section-y">
         <SectionEyebrow label="FAQ" title="Frequently asked questions." />
         <div className="mt-10"><FAQ items={FAQS} testIdPrefix="mca-faq" /></div>
-        <p className="text-xs text-zinc-500 mt-8 max-w-2xl">MCA is not a loan. It is a purchase of future receivables. Terms and availability depend on qualification.</p>
+        <p className="text-xs text-zinc-500 mt-8 max-w-2xl">RBF is not a loan. It is a purchase of future receivables. Terms and availability depend on qualification.</p>
       </section>
 
       <section className="container-x pb-24">
         <div className="card-surface p-10 md:p-14 text-center">
           <h2 className="h2">Need fast working capital?</h2>
-          <p className="body-lg mt-4 max-w-xl mx-auto">See if MCA is right for your business. Fast review based on your revenue performance.</p>
-          <Link to="/contact" data-testid="mca-bottom-cta" className="btn-accent mt-7">Apply for MCA <ArrowRight className="h-4 w-4" /></Link>
+          <p className="body-lg mt-4 max-w-xl mx-auto">See if RBF is right for your business. Fast review based on your revenue performance.</p>
+          <Link to="/contact" data-testid="mca-bottom-cta" className="btn-accent mt-7">Apply for RBF <ArrowRight className="h-4 w-4" /></Link>
         </div>
       </section>
     </div>
